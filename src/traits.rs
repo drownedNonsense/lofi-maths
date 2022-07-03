@@ -8,10 +8,9 @@
         Sub, SubAssign,
         Mul, MulAssign,
         Div, DivAssign,
-        Rem, RemAssign,
     }; // use ..
 
-    use crate::angle::Angle;
+    use crate::Angle;
 
 
 //#######################
@@ -26,7 +25,6 @@
         + Sub<Rhs, Output=Output> + SubAssign
         + Mul<Rhs, Output=Output> + MulAssign
         + Div<Rhs, Output=Output> + DivAssign
-        + Rem<Rhs, Output=Output> + RemAssign
         + Zero + One {}
 
     pub trait Zero { const ZERO: Self; }
@@ -37,11 +35,7 @@
 
     pub trait Integer: Number {}
     pub trait Float: Number   {}
-    pub trait Trigonometry<Rhs=Self, Output=Self>:
-          Sized
-        + Neg
-        + Add<Rhs, Output=Output> + AddAssign
-        + Sub<Rhs, Output=Output> + SubAssign { fn sin(self) -> f32; fn cos(self) -> f32; }
+    pub trait Trigonometry<Rhs=Self, Output=Self>: Neg + Number { fn sin(self) -> f32; fn cos(self) -> f32; }
 
     pub trait Sqrt { fn sqrt(self) -> Self; }
 
@@ -148,7 +142,6 @@
         + Sub<Rhs, Output=Output> + SubAssign
         + Mul<Rhs, Output=Output> + MulAssign
         + Div<Rhs, Output=Output> + DivAssign
-        + Rem<Rhs, Output=Output> + RemAssign
         + Zero + One {}
 
     impl Signed for i8  { type Unsigned = u8; }
@@ -177,6 +170,8 @@
 
     impl Zero for f32 { const ZERO: Self = 0f32; }
 
+    impl Zero for Angle    { const ZERO: Self = Angle(0u8); }
+
     impl One for u8  { const ONE: Self = 1u8; }
     impl One for u16 { const ONE: Self = 1u16; }
     impl One for u32 { const ONE: Self = 1u32; }
@@ -185,6 +180,8 @@
     impl One for i32 { const ONE: Self = 1i32; }
 
     impl One for f32 { const ONE: Self = 1f32; }
+
+    impl One for Angle    { const ONE: Self = Angle(128u8); }
 
 
     impl Sqrt for u8  { fn sqrt(self) -> Self { isqrt8(self) }}
