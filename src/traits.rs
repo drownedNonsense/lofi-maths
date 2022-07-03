@@ -30,8 +30,8 @@
     pub trait Zero { const ZERO: Self; }
     pub trait One  { const ONE: Self; }
 
-    pub trait Signed<Output=Self>: Neg<Output=Output> + Integer { type Unsigned; }
-    pub trait Unsigned: Integer                                 { type Signed; }
+    pub trait Signed<Output=Self>: Neg<Output=Output> + Number { type Unsigned; }
+    pub trait Unsigned: Number                                 { type Signed; }
 
     pub trait Integer: Number {}
     pub trait Float: Number   {}
@@ -147,6 +147,7 @@
     impl Signed for i8  { type Unsigned = u8; }
     impl Signed for i16 { type Unsigned = u16; }
     impl Signed for i32 { type Unsigned = u32; }
+    impl Signed for f32 { type Unsigned = f32; }
     impl Unsigned for u8  { type Signed = i8; }
     impl Unsigned for u16 { type Signed = i16; }
     impl Unsigned for u32 { type Signed = i32; }

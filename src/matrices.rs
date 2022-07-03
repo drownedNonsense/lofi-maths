@@ -112,13 +112,13 @@
     } // impl Mul ..
 
 
-    impl<T: Number + Into<f32>> Into<[f32; 9]> for Mat3<T> {
-        fn into(self) -> [f32; 9] {[
-            self.0.0.into(), self.0.1.into(), self.0.2.into(),
-            self.1.0.into(), self.1.1.into(), self.1.2.into(),
-            self.2.0.into(), self.2.1.into(), self.2.2.into(),
-        ]} // fn into()
-    } // impl Into ..
+    impl<T: Number + Into<f32>> From<Mat3<T>> for [f32; 9usize] {
+        fn from(mat4: Mat3<T>) -> Self {[
+            mat4.0.0.into(), mat4.0.1.into(), mat4.0.2.into(),
+            mat4.1.0.into(), mat4.1.1.into(), mat4.1.2.into(),
+            mat4.2.0.into(), mat4.2.1.into(), mat4.2.2.into(),
+        ]} // fn from()
+    } // impl From ..
 
 
     //#########
@@ -195,11 +195,11 @@
     } // impl Mul ..
 
 
-    impl<T: Number + Into<f32>> Into<[f32; 16]> for Mat4<T> {
-        fn into(self) -> [f32; 16] {[
-            self.0.0.into(), self.0.1.into(), self.0.2.into(), self.0.3.into(),
-            self.1.0.into(), self.1.1.into(), self.1.2.into(), self.1.3.into(),
-            self.2.0.into(), self.2.1.into(), self.2.2.into(), self.2.3.into(),
-            self.3.0.into(), self.3.1.into(), self.3.2.into(), self.3.3.into(),
-        ]} // fn into()
-    } // impl Into ..
+    impl<T: Number + Into<f32>> From<Mat4<T>> for [f32; 16usize] {
+        fn from(mat4: Mat4<T>) -> Self {[
+            mat4.0.0.into(), mat4.0.1.into(), mat4.0.2.into(), mat4.0.3.into(),
+            mat4.1.0.into(), mat4.1.1.into(), mat4.1.2.into(), mat4.1.3.into(),
+            mat4.2.0.into(), mat4.2.1.into(), mat4.2.2.into(), mat4.2.3.into(),
+            mat4.3.0.into(), mat4.3.1.into(), mat4.3.2.into(), mat4.3.3.into(),
+        ]} // fn from()
+    } // impl From ..

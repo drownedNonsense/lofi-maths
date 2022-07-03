@@ -441,10 +441,10 @@
     } // impl RemAssign ..
 
 
-    impl Into<f32> for Angle {
+    impl From<Angle> for f32 {
         /// Converts a single byte angle to floating point radians
-        fn into(self) -> f32 { BYTE_TO_RAD_LOOKUP[self.0 as usize] }
-    } // impl Into ..
+        fn from(angle: Angle) -> f32 { BYTE_TO_RAD_LOOKUP[angle.0 as usize] }
+    } // impl from ..
 
 
     impl From<f32> for Angle {
