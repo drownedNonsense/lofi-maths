@@ -11,7 +11,7 @@
         Rem, RemAssign,
     }; // use ..
 
-    use rust_utils::WrappedInto;
+    use rust_utils::WrappingFrom;
 
 
 //#######################
@@ -449,5 +449,5 @@
 
     impl From<f32> for Angle {
         /// Converts a floating point radian to a single byte angle
-        fn from(angle: f32) -> Self { Angle(((angle * RAD_TO_BYTE_RATIO) as i32).wrapped_into()) }
+        fn from(angle: f32) -> Self { Angle(u8::wrapping_from((angle * RAD_TO_BYTE_RATIO) as i32)) }
     } // impl From ..

@@ -72,8 +72,8 @@
         fn mul(self, other: Self) -> Self::Output {
             Mat3(
                 self.0 * other.0.0 + self.1 * other.0.1 + self.2 * other.0.2,
-                self.1 * other.1.0 + self.1 * other.1.1 + self.2 * other.1.2,
-                self.2 * other.2.0 + self.1 * other.2.1 + self.2 * other.2.2,
+                self.0 * other.1.0 + self.1 * other.1.1 + self.2 * other.1.2,
+                self.0 * other.2.0 + self.1 * other.2.1 + self.2 * other.2.2,
             ) // Mat3
         } // fn mul()
     } // impl Mul ..
@@ -82,8 +82,8 @@
     impl<T: Number> MulAssign for Mat3<T> {
         fn mul_assign(&mut self, other: Self) {
             self.0 = self.0 * other.0.0 + self.1 * other.0.1 + self.2 * other.0.2;
-            self.1 = self.1 * other.1.0 + self.1 * other.1.1 + self.2 * other.1.2;
-            self.2 = self.2 * other.2.0 + self.1 * other.2.1 + self.2 * other.2.2;
+            self.1 = self.0 * other.1.0 + self.1 * other.1.1 + self.2 * other.1.2;
+            self.2 = self.0 * other.2.0 + self.1 * other.2.1 + self.2 * other.2.2;
         } // fn mul_assign()
     } // impl MulAssign ..
 
@@ -134,6 +134,16 @@
                 Vec4(T::ZERO, T::ZERO, T::ZERO, T::ONE),
             ); // const ..
 
+        
+        pub fn transform_2d_to_transform_3d(mat3: Mat3<T>) -> Self {
+            Mat4(
+                Vec4(mat3.0.0, mat3.0.1, T::ZERO, T::ZERO),
+                Vec4(mat3.1.0, mat3.1.1, T::ZERO, T::ZERO),
+                Vec4(T::ZERO,  T::ZERO,  T::ONE,  T::ZERO),
+                Vec4(mat3.2.0, mat3.2.1, T::ZERO, T::ONE),
+            ) // Mat4()
+        } // fn transform_2d_to_transform_3d()
+
 
         pub fn new_orthogonal_projection_mat(horizontal: (T, T), vertical: (T, T), depth: (T, T)) -> Self
         where T: Signed {
@@ -146,14 +156,15 @@
         } // fn new_orthogonal_projection_mat()
     } // impl Mat4
 
+
     impl<T: Number> Mul for Mat4<T> {
         type Output = Self;
         fn mul(self, other: Self) -> Self::Output {
             Mat4(
                 self.0 * other.0.0 + self.1 * other.0.1 + self.2 * other.0.2 + self.3 * other.0.3,
-                self.1 * other.1.0 + self.1 * other.1.1 + self.2 * other.1.2 + self.3 * other.1.3,
-                self.2 * other.2.0 + self.1 * other.2.1 + self.2 * other.2.2 + self.3 * other.2.3,
-                self.3 * other.3.0 + self.1 * other.3.1 + self.2 * other.3.2 + self.3 * other.3.3,
+                self.0 * other.1.0 + self.1 * other.1.1 + self.2 * other.1.2 + self.3 * other.1.3,
+                self.0 * other.2.0 + self.1 * other.2.1 + self.2 * other.2.2 + self.3 * other.2.3,
+                self.0 * other.3.0 + self.1 * other.3.1 + self.2 * other.3.2 + self.3 * other.3.3,
             ) // Mat4
         } // fn mul()
     } // impl Mul ..
@@ -162,9 +173,9 @@
     impl<T: Number> MulAssign for Mat4<T> {
         fn mul_assign(&mut self, other: Self) {
             self.0 = self.0 * other.0.0 + self.1 * other.0.1 + self.2 * other.0.2 + self.3 * other.0.3;
-            self.1 = self.1 * other.1.0 + self.1 * other.1.1 + self.2 * other.1.2 + self.3 * other.1.3;
-            self.2 = self.2 * other.2.0 + self.1 * other.2.1 + self.2 * other.2.2 + self.3 * other.2.3;
-            self.3 = self.3 * other.3.0 + self.1 * other.3.1 + self.2 * other.3.2 + self.3 * other.3.3;
+            self.1 = self.0 * other.1.0 + self.1 * other.1.1 + self.2 * other.1.2 + self.3 * other.1.3;
+            self.2 = self.0 * other.2.0 + self.1 * other.2.1 + self.2 * other.2.2 + self.3 * other.2.3;
+            self.3 = self.0 * other.3.0 + self.1 * other.3.1 + self.2 * other.3.2 + self.3 * other.3.3;
         } // fn mul_assign()
     } // impl MulAssign ..
 

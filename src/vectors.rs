@@ -48,6 +48,33 @@
     ); // impl_vec_left_mul()
 
 
+    macro_rules! impl_into_fvec(
+        ($($T: ty),*$(,)*) => {$(
+
+            impl From<Vec2<$T>> for Vec2<f32> {
+                fn from(vec2: Vec2<$T>) -> Self {
+                    Vec2(vec2.0 as f32, vec2.1 as f32)
+                } // fn from()
+            } // impl From ..
+
+
+            impl From<Vec3<$T>> for Vec3<f32> {
+                fn from(vec3: Vec3<$T>) -> Self {
+                    Vec3(vec3.0 as f32, vec3.1 as f32, vec3.2 as f32)
+                } // fn from()
+            } // impl From ..
+
+
+            impl From<Vec4<$T>> for Vec4<f32> {
+                fn from(vec4: Vec4<$T>) -> Self {
+                    Vec4(vec4.0 as f32, vec4.1 as f32, vec4.2 as f32, vec4.3 as f32)
+                } // fn from()
+            } // impl From ..
+
+        )*}
+    ); // impl_into_fvec()
+
+
 //#######################
 // D E F I N I T I O N S
 //#######################
@@ -69,6 +96,7 @@
 //###############################
 
     impl_vec_left_mul!(u8, u16, u32, i8, i16, i32, f32);
+    impl_into_fvec!(u8, u16, u32, i8, i16, i32);
 
 
     //#########
@@ -78,6 +106,8 @@
     impl<T: Number> Vec2<T> {
         pub fn x(&self) -> T { self.0 }
         pub fn y(&self) -> T { self.1 }
+        pub fn x_mut(&mut self) -> &mut T { &mut self.0 }
+        pub fn y_mut(&mut self) -> &mut T { &mut self.1 }
         pub fn dot(a: Self, b: Self) -> T { a.0 * b.0 + a.1 * b.1 }
         pub fn squared_magnitude(&self) -> T { self.0 * self.0 + self.1 * self.1 }
     } // impl Vec2
@@ -99,6 +129,13 @@
         pub fn vec2_magnitude(&self)           -> f32 { (self.0 * self.0 + self.1 * self.1).sqrt() }
         pub fn vec2_distance(a: Self, b: Self) -> f32 { (b - a).vec2_magnitude() }
     } // impl Vec2
+
+
+    impl From<Vec2<u8>> for Vec2<u16> {
+        fn from(vec2: Vec2<u8>) -> Self {
+            Vec2(vec2.0.into(), vec2.1.into())
+        }
+    }
 
 
     impl From<Angle> for Vec2<f32> {
@@ -167,6 +204,9 @@
         pub fn x(&self) -> T { self.0 }
         pub fn y(&self) -> T { self.1 }
         pub fn z(&self) -> T { self.2 }
+        pub fn x_mut(&mut self) -> &mut T { &mut self.0 }
+        pub fn y_mut(&mut self) -> &mut T { &mut self.1 }
+        pub fn z_mut(&mut self) -> &mut T { &mut self.2 }
         pub fn xy(&self) -> Vec2<T> { Vec2(self.0, self.1) }
         pub fn yz(&self) -> Vec2<T> { Vec2(self.1, self.2) }
         pub fn xz(&self) -> Vec2<T> { Vec2(self.0, self.2) }
@@ -232,6 +272,10 @@
         pub fn y(&self) -> T { self.1 }
         pub fn z(&self) -> T { self.2 }
         pub fn w(&self) -> T { self.3 }
+        pub fn x_mut(&mut self) -> &mut T { &mut self.0 }
+        pub fn y_mut(&mut self) -> &mut T { &mut self.1 }
+        pub fn z_mut(&mut self) -> &mut T { &mut self.2 }
+        pub fn w_mut(&mut self) -> &mut T { &mut self.3 }
         pub fn xy(&self) -> Vec2<T> { Vec2(self.0, self.1) }
         pub fn xz(&self) -> Vec2<T> { Vec2(self.0, self.2) }
         pub fn xw(&self) -> Vec2<T> { Vec2(self.0, self.3) }
