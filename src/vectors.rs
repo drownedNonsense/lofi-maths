@@ -79,15 +79,15 @@
 // D E F I N I T I O N S
 //#######################
 
-    #[derive(Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash, Default, Debug)]
+    #[derive(Clone, Copy, PartialEq, Eq, Hash, Default, Debug)]
     pub struct Vec2<T: Number>(pub T, pub T);
 
 
-    #[derive(Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash, Default, Debug)]
+    #[derive(Clone, Copy, PartialEq, Eq, Hash, Default, Debug)]
     pub struct Vec3<T: Number>(pub T, pub T, pub T);
 
 
-    #[derive(Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash, Default, Debug)]
+    #[derive(Clone, Copy, PartialEq, Eq, Hash, Default, Debug)]
     pub struct Vec4<T: Number>(pub T, pub T, pub T, pub T);
 
 
@@ -110,90 +110,90 @@
         pub fn y_mut(&mut self) -> &mut T { &mut self.1 }
         pub fn dot(a: Self, b: Self) -> T { a.0 * b.0 + a.1 * b.1 }
         pub fn squared_magnitude(&self) -> T { self.0 * self.0 + self.1 * self.1 }
-    } // impl Vec2
+    } // impl ..
 
 
     impl<T: Unsigned> Vec2<T> {
         pub fn uvec2_magnitude(&self)           -> T where T: Sqrt { (self.0 * self.0 + self.1 * self.1).sqrt() }
-        pub fn uvec2_distance(a: Self, b: Self) -> T where T: Sqrt {{ if b > a { b - a } else { a - b }}.uvec2_magnitude() }
-    } // impl Vec2
+        pub fn uvec2_distance(a: Self, b: Self) -> T where T: Sqrt {{ if b.0 > a.0 && b.1 > a.1 { b - a } else { a - b }}.uvec2_magnitude() }
+    } // impl ..
 
 
     impl<T: Signed> Vec2<T> {
         pub fn ivec2_magnitude(&self)           -> T::Unsigned where T: Into<T::Unsigned>, T::Unsigned: Sqrt { ((self.0 * self.0 + self.1 * self.1).into()).sqrt() }
         pub fn ivec2_distance(a: Self, b: Self) -> T::Unsigned where T: Into<T::Unsigned>, T::Unsigned: Sqrt { (b - a).ivec2_magnitude() }
-    } // impl Vec2
+    } // impl ..
 
 
     impl Vec2<f32> {
         pub fn vec2_magnitude(&self)           -> f32 { (self.0 * self.0 + self.1 * self.1).sqrt() }
         pub fn vec2_distance(a: Self, b: Self) -> f32 { (b - a).vec2_magnitude() }
-    } // impl Vec2
+    } // impl ..
 
 
     impl From<Vec2<u8>> for Vec2<u16> {
         fn from(vec2: Vec2<u8>) -> Self {
             Vec2(vec2.0.into(), vec2.1.into())
-        }
-    }
+        } // fn ..
+    } // impl ..
 
 
     impl From<Angle> for Vec2<f32> {
         /// Creates a `Vec2` from polar coordinates
         fn from(angle: Angle) -> Self {
             Vec2(angle.cos(), angle.sin())
-        } // fn from()
-    } // impl From ..
+        } // fn ..
+    } // impl ..
 
 
     impl<T: Signed> Neg for Vec2<T>  {
         type Output = Self;
         fn neg(self) -> Self::Output { Vec2(-self.0, -self.1) }
-    } // impl Neg ..
+    } // impl ..
 
 
     impl<T: Number> Add for Vec2<T>  {
         type Output = Self;
         fn add(self, rhs: Self) -> Self::Output { Vec2(self.0 + rhs.0, self.1 + rhs.1) }
-    } // impl Add ..
+    } // impl ..
 
 
     impl<T: Number> AddAssign for Vec2<T>  {
         fn add_assign(&mut self, rhs: Self) { self.0 += rhs.0; self.1 += rhs.1; }
-    } // impl AddAssign ..
+    } // impl ..
 
 
     impl<T: Number> Sub for Vec2<T>  {
         type Output = Self;
         fn sub(self, rhs: Self) -> Self::Output { Vec2(self.0 - rhs.0, self.1 - rhs.1) }
-    } // impl Sub ..
+    } // impl ..
 
 
     impl<T: Number> SubAssign for Vec2<T>  {
         fn sub_assign(&mut self, rhs: Self) { self.0 -= rhs.0; self.1 -= rhs.1; }
-    } // impl AddAssign ..
+    } // impl ..
 
 
     impl<T: Number> Mul<T> for Vec2<T>  {
         type Output = Self;
         fn mul(self, rhs: T) -> Self::Output { Vec2(self.0 * rhs, self.1 * rhs) }
-    } // impl Mul ..
+    } // impl ..
 
 
     impl<T: Number> MulAssign<T> for Vec2<T>  {
         fn mul_assign(&mut self, rhs: T) { self.0 *= rhs; self.1 *= rhs; }
-    } // impl MulAssign ..
+    } // impl ..
 
 
     impl<T: Number> Div<T> for Vec2<T>  {
         type Output = Self;
         fn div(self, rhs: T) -> Self::Output { Vec2(self.0 / rhs, self.1 / rhs) }
-    } // impl Div ..
+    } // impl ..
 
 
     impl<T: Number> DivAssign<T> for Vec2<T>  {
         fn div_assign(&mut self, rhs: T) { self.0 /= rhs; self.1 /= rhs; }
-    } // impl DivAssign ..
+    } // impl ..
 
 
     //#########
@@ -210,57 +210,57 @@
         pub fn xy(&self) -> Vec2<T> { Vec2(self.0, self.1) }
         pub fn yz(&self) -> Vec2<T> { Vec2(self.1, self.2) }
         pub fn xz(&self) -> Vec2<T> { Vec2(self.0, self.2) }
-    } // impl Vec3
+    } // impl ..
 
 
     impl<T: Signed> Neg for Vec3<T>  {
         type Output = Self;
         fn neg(self) -> Self::Output { Vec3(-self.0, -self.1, -self.2) }
-    } // impl Neg ..
+    } // impl ..
 
 
     impl<T: Number> Add for Vec3<T>  {
         type Output = Self;
         fn add(self, rhs: Self) -> Self::Output { Vec3(self.0 + rhs.0, self.1 + rhs.1, self.2 + rhs.2) }
-    } // impl Add ..
+    } // impl ..
 
 
     impl<T: Number> AddAssign for Vec3<T>  {
         fn add_assign(&mut self, rhs: Self) { self.0 += rhs.0; self.1 += rhs.1; self.2 += rhs.2; }
-    } // impl AddAssign ..
+    } // impl ..
 
 
     impl<T: Number> Sub for Vec3<T>  {
         type Output = Self;
         fn sub(self, rhs: Self) -> Self::Output { Vec3(self.0 - rhs.0, self.1 - rhs.1, self.2 - rhs.2) }
-    } // impl Sub ..
+    } // impl ..
 
 
     impl<T: Number> SubAssign for Vec3<T>  {
         fn sub_assign(&mut self, rhs: Self) { self.0 -= rhs.0; self.1 -= rhs.1; self.2 -= rhs.2; }
-    } // impl AddAssign ..
+    } // impl ..
 
 
     impl<T: Number> Mul<T> for Vec3<T>  {
         type Output = Self;
         fn mul(self, rhs: T) -> Self::Output { Vec3(self.0 * rhs, self.1 * rhs, self.2 * rhs) }
-    } // impl Mul ..
+    } // impl ..
 
 
     impl<T: Number> MulAssign<T> for Vec3<T>  {
         fn mul_assign(&mut self, rhs: T) { self.0 *= rhs; self.1 *= rhs; self.2 *= rhs; }
-    } // impl MulAssign ..
+    } // impl ..
 
 
     impl<T: Number> Div<T> for Vec3<T>  {
         type Output = Self;
         fn div(self, rhs: T) -> Self::Output { Vec3(self.0 / rhs, self.1 / rhs, self.2 / rhs) }
-    } // impl Div ..
+    } // impl ..
 
 
     impl<T: Number> DivAssign<T> for Vec3<T>  {
         fn div_assign(&mut self, rhs: T) { self.0 /= rhs; self.1 /= rhs; self.2 /= rhs; }
-    } // impl DivAssign ..
+    } // impl ..
 
 
     //#########
@@ -286,54 +286,54 @@
         pub fn xyw(&self) -> Vec3<T> { Vec3(self.0, self.1, self.3) }
         pub fn xzw(&self) -> Vec3<T> { Vec3(self.0, self.2, self.3) }
         pub fn yzw(&self) -> Vec3<T> { Vec3(self.1, self.2, self.3) }
-    } // impl Vec4
+    } // impl ..
 
 
     impl<T: Signed> Neg for Vec4<T>  {
         type Output = Self;
         fn neg(self) -> Self::Output { Vec4(-self.0, -self.1, -self.2, -self.3) }
-    } // impl Neg ..
+    } // impl ..
 
 
     impl<T: Number> Add for Vec4<T>  {
         type Output = Self;
         fn add(self, rhs: Self) -> Self::Output { Vec4(self.0 + rhs.0, self.1 + rhs.1, self.2 + rhs.2, self.3 + rhs.3) }
-    } // impl Add ..
+    } // impl ..
 
 
     impl<T: Number> AddAssign for Vec4<T>  {
         fn add_assign(&mut self, rhs: Self) { self.0 += rhs.0; self.1 += rhs.1; self.2 += rhs.2; self.3 += rhs.3; }
-    } // impl AddAssign ..
+    } // impl ..
 
 
     impl<T: Number> Sub for Vec4<T>  {
         type Output = Self;
         fn sub(self, rhs: Self) -> Self::Output { Vec4(self.0 - rhs.0, self.1 - rhs.1, self.2 - rhs.2, self.3 - rhs.3) }
-    } // impl Sub ..
+    } // impl ..
 
 
     impl<T: Number> SubAssign for Vec4<T>  {
         fn sub_assign(&mut self, rhs: Self) { self.0 -= rhs.0; self.1 -= rhs.1; self.2 -= rhs.2; self.3 -= rhs.3; }
-    } // impl AddAssign ..
+    } // impl ..
 
 
     impl<T: Number> Mul<T> for Vec4<T>  {
         type Output = Self;
         fn mul(self, rhs: T) -> Self::Output { Vec4(self.0 * rhs, self.1 * rhs, self.2 * rhs, self.3 * rhs) }
-    } // impl Mul ..
+    } // impl ..
 
 
     impl<T: Number> MulAssign<T> for Vec4<T>  {
         fn mul_assign(&mut self, rhs: T) { self.0 *= rhs; self.1 *= rhs; self.2 *= rhs; self.3 *= rhs; }
-    } // impl MulAssign ..
+    } // impl ..
 
 
     impl<T: Number> Div<T> for Vec4<T>  {
         type Output = Self;
         fn div(self, rhs: T) -> Self::Output { Vec4(self.0 / rhs, self.1 / rhs, self.2 / rhs, self.3 / rhs) }
-    } // impl Div ..
+    } // impl ..
 
 
     impl<T: Number> DivAssign<T> for Vec4<T>  {
         fn div_assign(&mut self, rhs: T) { self.0 /= rhs; self.1 /= rhs; self.2 /= rhs; self.3 /= rhs; }
-    } // impl DivAssign ..
+    } // impl ..

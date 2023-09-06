@@ -2,6 +2,7 @@
 // D E P E N D E N C I E S
 //#########################
 
+    use std::cmp::Ordering;
     use std::ops::{
         Neg,
         Add, AddAssign,
@@ -11,14 +12,14 @@
         Rem, RemAssign,
     }; // use ..
 
-    use rust_utils::WrappingFrom;
+    use rusty_toolkit::WrappingFrom;
 
 
 //#######################
 // D E F I N I T I O N S
 //#######################
 
-    #[derive(Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash, Default, Debug)]
+    #[derive(Clone, Copy, Hash, Default, Debug)]
     pub struct Angle(pub u8);
 
 
@@ -366,7 +367,7 @@
                 0x80 => -TRIGO_LOOKUP[(self.0 & 0x3F) as usize],
                 _    => -TRIGO_LOOKUP[(0x40 - (self.0 & 0x3F)) as usize],
             } // match ..
-        } // fn sinf()
+        } // fn ..
 
 
         pub(crate) fn cosf(self) -> f32 {
@@ -376,78 +377,96 @@
                 0x80 => -TRIGO_LOOKUP[(0x40 - (self.0 & 0x3F)) as usize],
                 _    =>  TRIGO_LOOKUP[(self.0 & 0x3F) as usize],
             } // match ..
-        } // fn cosf()
-    } // impl Angle
+        } // fn ..
+    } // impl ..
 
 
     impl Neg for Angle {
         type Output = Self;
         fn neg(self) -> Self::Output { Angle(0u8.wrapping_sub(self.0)) }
-    } // impl Neg ..
+    } // impl ..
 
 
     impl Add for Angle {
         type Output = Self;
         fn add(self, rhs: Self) -> Self::Output { Angle(self.0.wrapping_add(rhs.0)) }
-    } // impl Add ..
+    } // impl ..
 
 
     impl AddAssign for Angle {
         fn add_assign(&mut self, rhs: Self) { self.0 = self.0.wrapping_add(rhs.0) }
-    } // impl AddAssign ..
+    } // impl ..
 
 
     impl Sub for Angle {
         type Output = Self;
         fn sub(self, rhs: Self) -> Self::Output { Angle(self.0.wrapping_sub(rhs.0)) }
-    } // impl Sub ..
+    } // impl ..
 
 
     impl SubAssign for Angle {
         fn sub_assign(&mut self, rhs: Self) { self.0 = self.0.wrapping_sub(rhs.0) }
-    } // impl SubAssign ..
+    } // impl ..
 
 
     impl Mul for Angle {
         type Output = Self;
         fn mul(self, rhs: Self) -> Self::Output { Angle(self.0.wrapping_mul(rhs.0)) }
-    } // impl Mul ..
+    } // impl ..
 
 
     impl MulAssign for Angle {
         fn mul_assign(&mut self, rhs: Self) { self.0 = self.0.wrapping_mul(rhs.0) }
-    } // impl MulAssign ..
+    } // impl ..
 
 
     impl Div for Angle {
         type Output = Self;
         fn div(self, rhs: Self) -> Self::Output { Angle(self.0 / rhs.0) }
-    } // impl Div ..
+    } // impl ..
 
 
     impl DivAssign for Angle {
         fn div_assign(&mut self, rhs: Self) { self.0 = self.0 / rhs.0 }
-    } // impl DivAssign ..
+    } // impl ..
 
 
     impl Rem for Angle {
         type Output = Self;
         fn rem(self, rhs: Self) -> Self::Output { Angle(self.0 % rhs.0) }
-    } // impl Rem ..
+    } // impl ..
 
 
     impl RemAssign for Angle {
         fn rem_assign(&mut self, rhs: Self) { self.0 %= rhs.0 }
-    } // impl RemAssign ..
+    } // impl ..
 
 
     impl From<Angle> for f32 {
         /// Converts a single byte angle to floating point radians
         fn from(angle: Angle) -> f32 { BYTE_TO_RAD_LOOKUP[angle.0 as usize] }
-    } // impl from ..
+    } // impl ..
 
 
     impl From<f32> for Angle {
         /// Converts a floating point radian to a single byte angle
         fn from(angle: f32) -> Self { Angle(u8::wrapping_from((angle * RAD_TO_BYTE_RATIO) as i32)) }
-    } // impl From ..
+    } // impl ..
+
+
+    impl PartialEq for Angle {
+        fn eq(&self, other: &Self) -> bool { self.0 == other.0 }
+    } // impl ..
+
+
+    impl PartialOrd for Angle {
+        fn ge(&self, other: &Self) -> bool { self.0 >= other.0 }
+        fn gt(&self, other: &Self) -> bool { self.0 >  other.0 }
+        fn le(&self, other: &Self) -> bool { self.0 <= other.0 }
+        fn lt(&self, other: &Self) -> bool { self.0 <  other.0 }
+        fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
+            if self.eq(other)      { Some(Ordering::Equal) }
+            else if self.gt(other) { Some(Ordering::Greater) }
+            else                   { Some(Ordering::Less) }
+        } // fn ..
+    } // imp ..

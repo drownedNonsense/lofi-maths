@@ -27,6 +27,7 @@
         + Div<Rhs, Output=Output> + DivAssign
         + Zero + One {}
 
+
     pub trait Zero { const ZERO: Self; }
     pub trait One  { const ONE: Self; }
 
@@ -67,7 +68,7 @@
 
         n_hat + (x & 1u8) // Add one if odd
 
-    } // fn isqrt8()
+    } // fn ..
 
 
     const fn isqrt16(x: u16) -> u16 {
@@ -97,7 +98,7 @@
 
         n_hat + (x & 1u16) // Add one if odd
 
-    } // fn isqrt16()
+    } // fn ..
 
 
     const fn isqrt32(x: u32) -> u32 {
@@ -127,7 +128,7 @@
     
         n_hat + (x & 1u32) // Add one if odd
     
-    } // fn isqrt32()
+    } // fn ..
 
 
 //###############################
